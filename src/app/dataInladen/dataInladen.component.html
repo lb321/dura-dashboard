@@ -1,0 +1,12 @@
+<p>
+  Hier kun je data inladen
+</p>
+<form>
+  Meetdatum:<br>
+  <input type="datetime-local"/>
+  <br>
+  Meetbestand:<br>
+  <input type="file" name="meetbestand" id="meetbestand" (change)="handleFileInput($event.target.files)"/>
+  <br>
+  <button (click)="uploadfile()">Upload</button>
+</form>
