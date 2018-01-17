@@ -8,17 +8,18 @@ import {Routing} from './app.routes';
 import {HomeComponent} from "./home/home.component";
 import {DataService} from "./data.service";
 import {HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     DataInladenComponent,
-    MenuComponent,
-    HttpClientModule
+    MenuComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     Routing
   ],
   providers: [

@@ -1,7 +1,5 @@
 import {Component} from "@angular/core";
-import {Observable} from "rxjs/Observable";
-import {Http} from "@angular/http";
-import {httpFactory} from "@angular/http/src/http_module";
+import {DataService} from "../data.service";
 
 @Component({
   selector: 'DataInladenComponent',
@@ -9,28 +7,26 @@ import {httpFactory} from "@angular/http/src/http_module";
 })
 
 export class DataInladenComponent {
-  public meetdatum: Date = new Date(Date.now());
+  public meetdatum: Date = new Date(Date.parse('2017-01-17 12:00:00'));
+  public startDatumCsv = new Date(Date.parse('2017-12-13T00:00:00'));
+  public selectedFile: File;
+  private fileContent = '';
 
-  constructor(public http: Http) {
-
+  constructor(public dataService: DataService) {
   }
 
-  public uploadfile(file){
-    console.log('uploading...');
+  public readfile() {
+    let fileReader = new FileReader();
+    fileReader.readAsText(this.selectedFile);
+    fileReader.addEventListener('load', ev => {
+      this.fileContent = fileReader.result;
+      this.dataService.processFile(this.fileContent, this.meetdatum, this.startDatumCsv);
+    });
   }
 
   public handleFileInput(files) {
     for(const file of files ){
-      this.postFile(file);
+      this.selectedFile = file;
     }
-  }
-
-  public postFile(fileToUpload: File) {
-    const endpoint = '/data/' + fileToUpload.name;
-    const formData: FormData = new FormData();
-    formData.append('fileKey', fileToUpload, fileToUpload.name);
-    this.http.post(endpoint, formData).subscribe(response => {
-      console.log(response);
-    });
   }
 }

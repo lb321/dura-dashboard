@@ -23,6 +23,7 @@
     "@angular/router": "^4.2.4",
     "angular4-files-upload": "^1.0.2",
     "core-js": "^2.4.1",
+    "kalmanjs": "^1.0.0-beta",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
   },
