@@ -20,8 +20,10 @@ export class DataService {
         return kalmanFilter.filter(v);
       });
 
-      for(const i in dataConstantKalman) {
-        this.beaconData[beacon].datapoints[i].distanceToBeacon = (Math.round(this.calculateDistanceLog(dataConstantKalman[i]) * 100) / 100);
+      for (const i in dataConstantKalman) {
+        const distance = (Math.round(this.calculateDistanceLog(dataConstantKalman[i]) * 100) / 100);
+        this.beaconData[beacon].datapoints[i].distanceToGateWay = distance;
+        this.beaconData[beacon].distances.push(distance);
       }
 
     }
@@ -90,7 +92,7 @@ export class DataService {
             arrData[dataPoint.beaconName].datapoints.push(dataPoint);
             arrData[dataPoint.beaconName].signalStrengths.push(dataPoint.signalStrength);
           } else {
-            arrData[dataPoint.beaconName] = {datapoints: [dataPoint], signalStrengths: [dataPoint.signalStrength]};
+            arrData[dataPoint.beaconName] = {datapoints: [dataPoint], signalStrengths: [dataPoint.signalStrength], distances: []};
           }
         }
         dataPoint = new DataPoint();

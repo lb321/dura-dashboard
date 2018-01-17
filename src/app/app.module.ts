@@ -7,20 +7,23 @@ import {MenuComponent} from './menu/menu.component';
 import {Routing} from './app.routes';
 import {HomeComponent} from "./home/home.component";
 import {DataService} from "./data.service";
-import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
+import { ChartModule } from 'angular-highcharts';
+import {ChartComponent} from "./chart/chart.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     DataInladenComponent,
-    MenuComponent
+    MenuComponent,
+    ChartComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    Routing
+    Routing,
+    ChartModule
   ],
   providers: [
     DataService

@@ -3,7 +3,7 @@ export class DataPoint {
   public beaconName = '';
   public time: Date;
   public signalStrength: number;
-  public distanceToBeacon: number;
+  public distanceToGateWay: number;
 
   constructor() {
 

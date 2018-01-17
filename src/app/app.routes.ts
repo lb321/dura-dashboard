@@ -1,11 +1,12 @@
 import {RouterModule, Routes} from '@angular/router';
-import {AppComponent} from './app.component';
 import {DataInladenComponent} from './dataInladen/dataInladen.component';
 import {HomeComponent} from './home/home.component';
+import {ChartComponent} from "./chart/chart.component";
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent},
-  { path: 'datainladen', component: DataInladenComponent}
+  { path: 'datainladen', component: DataInladenComponent},
+  { path: 'grafiek', component: ChartComponent}
 ];
 
 export const appRoutingProviders: any[] = [

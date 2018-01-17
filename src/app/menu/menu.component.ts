@@ -1,4 +1,5 @@
 import {Component} from "@angular/core";
+import {DataService} from "../data.service";
 
 @Component({
   selector: 'MenuComponent',
@@ -6,6 +7,6 @@ import {Component} from "@angular/core";
 })
 
 export class MenuComponent {
-  constructor() {
+  constructor(public dataService: DataService) {
   }
 }
