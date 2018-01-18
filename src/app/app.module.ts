@@ -11,6 +11,7 @@ import {FormsModule} from "@angular/forms";
 import { ChartModule } from 'angular-highcharts';
 import {ChartComponent} from "./chart/chart.component";
 
+
 @NgModule({
   declarations: [
     AppComponent,

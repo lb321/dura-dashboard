@@ -1,15 +1,18 @@
-<p>
-  Hier kun je data inladen
-</p>
+<div *ngIf="this.errors.length > 0">
+  <ul>
+    <li *ngFor="let error of this.errors" style="color: red;">{{error}}</li>
+  </ul>
+</div>
+<br>
 <form>
   Meetdatum:<br>
-  <input type="datetime-local" name="meetdatum" [(ngModel)]="meetdatum" />
+  <input type="datetime-local" name="meetdatum" [(ngModel)]="meetdatum"  />
   <br>
   Meetbestand:<br>
-  <input type="file" name="meetbestand" id="meetbestand" (change)="handleFileInput($event.target.files)"/>
+  <input type="file" name="meetbestand" id="meetbestand" accept=".csv" (change)="handleFileInput($event.target.files)"/>
   <br>
   Start tijd in de CSV:<br>
-  <input type="text" placeholder="hh:mm:ss" name="startDatumCsv" [(ngModel)]="startDatumCsv" />
+  <input type="datetime-local" name="startDatumCsv" [(ngModel)]="startDatumCsv" />
   <br>
   <button (click)="readfile()">Upload</button>
 </form>

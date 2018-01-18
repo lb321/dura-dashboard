@@ -1,5 +1,6 @@
-import {Component} from "@angular/core";
-import {DataService} from "../data.service";
+import {Component} from '@angular/core';
+import {DataService} from '../data.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'DataInladenComponent',
@@ -7,20 +8,41 @@ import {DataService} from "../data.service";
 })
 
 export class DataInladenComponent {
-  public meetdatum: Date = new Date(Date.parse('2017-01-17 12:00:00'));
-  public startDatumCsv = new Date(Date.parse('2017-12-13T00:00:00'));
+  public meetdatum: Date = new Date(Date.parse('2017-01-17T12:00:00'));
+  public startDatumCsv: Date = new Date(Date.parse('2017-12-13T00:00:00'));
   public selectedFile: File;
+  public errors = [];
   private fileContent = '';
 
-  constructor(public dataService: DataService) {
+  constructor(public dataService: DataService, public router: Router) {
   }
 
   public readfile() {
-    let fileReader = new FileReader();
+    this.errors = [];
+    console.log(this.meetdatum);
+    if (typeof this.meetdatum == typeof '') {
+      this.meetdatum = new Date(Date.parse(this.meetdatum + ''));
+    }
+    console.log(this.meetdatum);
+    try {
+      console.log(this.meetdatum.getTime());
+    } catch (e) {
+      this.errors.push('Geef een geldige meetdatum');
+    }
+    try {
+      this.startDatumCsv.getTime();
+    } catch (e) {
+      this.errors.push('Geef een geldige startdatum van het csv bestand.');
+    }
+    if (!this.selectedFile) this.errors.push('Selecteer een meetbestand.')
+    if (this.errors.length > 0) return;
+
+    const fileReader = new FileReader();
     fileReader.readAsText(this.selectedFile);
     fileReader.addEventListener('load', ev => {
       this.fileContent = fileReader.result;
       this.dataService.processFile(this.fileContent, this.meetdatum, this.startDatumCsv);
+      this.router.navigateByUrl('/grafiek');
     });
   }
 
@@ -29,4 +51,5 @@ export class DataInladenComponent {
       this.selectedFile = file;
     }
   }
+
 }

@@ -1,6 +1,7 @@
 import { Chart } from 'angular-highcharts';
 import {Component} from "@angular/core";
 import {DataService} from "../data.service";
+import * as Highcharts from "Highcharts";
 
 @Component({
   selector: 'ChartComponent',
@@ -9,7 +10,7 @@ import {DataService} from "../data.service";
 export class ChartComponent {
   chart = new Chart({
     chart: {
-      type: 'scatter'
+      type: 'spline'
     },
     title: {
       text: 'Linechart'
@@ -22,20 +23,34 @@ export class ChartComponent {
         text: 'Afstand (meter)'
       }
     },
+    xAxis: {
+      type: 'datetime',
+      title: {
+        text: 'Tijd'
+      }
+    },
+    tooltip: {
+      headerFormat: '<b>{series.name}</b><br>',
+      pointFormat: '{point.x:%e. %b %H:%M:%S}: {point.y:.2f} m'
+    },
     series: []
   });
 
   constructor(public dataService: DataService) {
-    for(const beacon in this.dataService.beaconData){
+    for (const beacon in this.dataService.beaconData){
       const data = []; // [[x,y],[x,y]]
-      for(const datapoint of this.dataService.beaconData[beacon].datapoints){
-        data.push([datapoint.time.toString(), datapoint.distanceToGateWay]);
+      for (const datapoint of this.dataService.beaconData[beacon].datapoints){
+        data.push([datapoint.time.getTime(), datapoint.distanceToGateWay]);
       }
       this.chart.addSerie({
         name: beacon,
         data: data
       });
-      console.log(data);
+      Highcharts.setOptions({
+        global: {
+          useUTC: false
+        }
+      });
     }
 
   }
