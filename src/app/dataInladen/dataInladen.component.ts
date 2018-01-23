@@ -12,6 +12,7 @@ export class DataInladenComponent {
   public startDatumCsv: Date = new Date(Date.parse('2017-12-13T00:00:00'));
   public selectedFile: File;
   public errors = [];
+  public gateway = 'zwart';
   private fileContent = '';
 
   constructor(public dataService: DataService, public router: Router) {
@@ -19,13 +20,11 @@ export class DataInladenComponent {
 
   public readfile() {
     this.errors = [];
-    console.log(this.meetdatum);
     if (typeof this.meetdatum == typeof '') {
       this.meetdatum = new Date(Date.parse(this.meetdatum + ''));
     }
-    console.log(this.meetdatum);
     try {
-      console.log(this.meetdatum.getTime());
+      this.meetdatum.getTime();
     } catch (e) {
       this.errors.push('Geef een geldige meetdatum');
     }
@@ -41,7 +40,7 @@ export class DataInladenComponent {
     fileReader.readAsText(this.selectedFile);
     fileReader.addEventListener('load', ev => {
       this.fileContent = fileReader.result;
-      this.dataService.processFile(this.fileContent, this.meetdatum, this.startDatumCsv);
+      this.dataService.processFile(this.fileContent, this.meetdatum, this.startDatumCsv, this.gateway);
       this.router.navigateByUrl('/grafiek');
     });
   }

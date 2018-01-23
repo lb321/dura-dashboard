@@ -3,5 +3,7 @@
     <li routerLink="/" style="cursor: pointer;"><a >Home</a></li>
     <li routerLink="/datainladen" style="cursor: pointer;"><a>Data Inladen</a></li>
     <li routerLink="/grafiek" *ngIf="dataService.beaconData" style="cursor: pointer;"><a>Grafiek</a></li>
+    <li routerLink="/rondetijden" *ngIf="dataService.beaconData" style="cursor: pointer;"><a>Rondetijden</a></li>
+    <li routerLink="/rondetijden2" *ngIf="dataService.beaconData" style="cursor: pointer;"><a>Rondetijden2</a></li>
   </ul>
 </nav>

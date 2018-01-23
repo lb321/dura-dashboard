@@ -1,38 +1,51 @@
 import {Injectable} from '@angular/core';
 import {DataPoint} from './DataPoint';
 import KalmanFilter from 'kalmanjs';
+import {RegisteredDataPoints} from "./RegisteredDataPoints";
 
 @Injectable()
 export class DataService {
-  public beaconData;
+  public beaconData = {};
   private startDatumCsv: Date;
   private meetDatum: Date;
 
-  public processFile(filecontent: string, meetdatum: Date, startDatumCsv: Date) {
+  public processFile(filecontent: string, meetdatum: Date, startDatumCsv: Date, gateway: string) {
     this.meetDatum = meetdatum;
     this.startDatumCsv = startDatumCsv;
-    this.beaconData = this.CSVToArray(filecontent, ',');
+    const csvData = this.CSVToArray(filecontent, ',');
 
-    for(const beacon in this.beaconData) {
+    for(const beacon in csvData) {
       const kalmanFilter = new KalmanFilter({R: 0.01, Q: 3});
 
-      const dataConstantKalman = this.beaconData[beacon].signalStrengths.map(function(v) {
+      const dataConstantKalman = csvData[beacon].signalStrengths.map(function(v) {
         return kalmanFilter.filter(v);
       });
 
       for (const i in dataConstantKalman) {
-        const distance = (Math.round(this.calculateDistanceLog(dataConstantKalman[i]) * 100) / 100);
-        this.beaconData[beacon].datapoints[i].distanceToGateWay = distance;
-        this.beaconData[beacon].distances.push(distance);
+        //const distance = (Math.round(this.calculateDistanceLog(dataConstantKalman[i]) * 100) / 100);
+        const distance = (Math.round(this.calculateDistanceLog(csvData[beacon].signalStrengths[i]) * 100) / 100);
+        csvData[beacon].datapoints[i].distanceToGateWay = distance;
+        this.RegisterDataPoint(csvData[beacon].datapoints[i], gateway);
+        //csvData[beacon].distances.push(distance);
       }
 
     }
-
     console.log(this.beaconData);
-
     /*var dataConstantKalman = signaalSterktes.map(function(v) {
       return kalmanFilter.filter(v);
     });*/
+  }
+
+  public getUniqueBeaconsBetweenTime(){
+
+  }
+
+  private RegisterDataPoint(dataPoint: DataPoint, atGateWay: string) {
+    if (!this.beaconData[atGateWay]) {
+      this.beaconData[atGateWay] = {};
+    }
+    if (!this.beaconData[atGateWay][dataPoint.beaconName]) this.beaconData[atGateWay][dataPoint.beaconName] = [dataPoint];
+    else this.beaconData[atGateWay][dataPoint.beaconName].push(dataPoint);
   }
 
   private calculateDistanceLog(rssi): number {

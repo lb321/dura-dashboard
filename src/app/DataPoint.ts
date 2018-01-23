@@ -4,6 +4,7 @@ export class DataPoint {
   public time: Date;
   public signalStrength: number;
   public distanceToGateWay: number;
+  public registeredAtGateway = '';
 
   constructor() {
 

@@ -10,6 +10,8 @@ import {DataService} from "./data.service";
 import {FormsModule} from "@angular/forms";
 import { ChartModule } from 'angular-highcharts';
 import {ChartComponent} from "./chart/chart.component";
+import { RondetijdComponent } from "./rondetijd/rondetijd.component";
+import {Rondetijd2Component} from "./rondetijd2/rondetijd2.component";
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import {ChartComponent} from "./chart/chart.component";
     HomeComponent,
     DataInladenComponent,
     MenuComponent,
-    ChartComponent
+    ChartComponent,
+    RondetijdComponent,
+    Rondetijd2Component
   ],
   imports: [
     BrowserModule,
